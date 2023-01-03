@@ -60,4 +60,4 @@ for row in rows:
     parameters = row['parameters']
     command = f'python {path_to_executable} {parameters} >> {path_to_logs} ENTER'
     # Launch the command in the corresponding tmux session
-    subprocess.run(['tmux', 'send-keys', '-t', bot_name, f'python'])
+    subprocess.run(['tmux', 'send-keys', '-t', bot_name, command])
