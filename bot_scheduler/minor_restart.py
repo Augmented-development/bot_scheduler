@@ -38,7 +38,7 @@ for row in rows:
     output = subprocess.run(['tmux', 'list-sessions'], stdout=subprocess.PIPE).stdout.decode('utf-8')
     # Check if the desired session is in the list
     if bot_name not in output:
-        subprocess.run(['tmux', 'new-session', '-s', bot_name])
+        subprocess.run(['tmux', 'new-session', '-d', '-s', bot_name])
 
     # Run the command in tmux
     command = f'python {path_to_executable} {parameters} >> {path_to_logs} ENTER'

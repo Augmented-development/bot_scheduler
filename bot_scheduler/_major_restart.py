@@ -50,7 +50,7 @@ for row in rows:
     output = subprocess.run(['tmux', 'list-sessions'], stdout=subprocess.PIPE).stdout.decode('utf-8')
     # Check if the desired session is in the list
     if bot_name not in output:
-        subprocess.run(['tmux', 'new-session', '-s', bot_name])
+        subprocess.run(['tmux', 'new-session', '-d', '-s', bot_name])
 
     path_to_executable = os.path.expanduser(row['path_to_executable'])
     path_to_logs = os.path.expanduser(row['path_to_logs'])
