@@ -1,0 +1,3 @@
+path_to_folder,path_to_executable,path_to_logs  ,path_to_touch_file  ,bot_name,branch_to_use,parameters
+/path/to/repo1,/path/to/bot1.py  ,/path/to/logs1,/path/to/touch_file1,bot1    ,branch_to_use,parameters
+/path/to/repo2,/path/to/bot2.py  ,/path/to/logs2,/path/to/touch_file2,bot2    ,branch_to_use,parameters
