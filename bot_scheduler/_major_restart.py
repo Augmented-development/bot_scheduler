@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 # Open the CSV file
 config_path = os.path.join(os.path.dirname(__file__), 'config.csv')
-with open('config.csv', 'r') as f:
+with open(config_path, 'r') as f:
     # Read the contents of the file into a list of dictionaries,
     # where each dictionary represents a row in the CSV file
     rows = [{k: v for k, v in row.items()} for row in csv.DictReader(f, skipinitialspace=True)]
