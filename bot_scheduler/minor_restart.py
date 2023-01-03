@@ -13,6 +13,9 @@ with open('config.csv', 'r') as f:
 
 # Iterate over the rows in the list
 for row in rows:
+    is_active = row['is_active'] == "True"
+    if not is_active:
+        continue
     # Extract the necessary information for each bot
     path_to_folder = os.path.expanduser(row['path_to_folder'])
     path_to_executable = os.path.expanduser(row['path_to_executable'])

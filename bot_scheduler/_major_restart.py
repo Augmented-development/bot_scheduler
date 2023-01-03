@@ -21,6 +21,9 @@ with open(config_path, 'r') as f:
 
 # Iterate over the rows in the list
 for row in rows:
+    is_active = row['is_active'] == "True"
+    if not is_active:
+        continue
     # Extract the necessary information for each bot
     path_to_folder = os.path.expanduser(row['path_to_folder'])
     bot_name = row['bot_name']
