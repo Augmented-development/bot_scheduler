@@ -1,0 +1,3 @@
+0 3 * * * /home/jarvis-service-account/projects/bot_scheduler/bot_scheduler/major_restart.sh >> ~/logs/bot_scheduler.txt
+57 * * * * /home/jarvis-service-account/projects/bot_scheduler/bot_scheduler/minor_restart.py >> ~/logs/bot_scheduler.txt
+
