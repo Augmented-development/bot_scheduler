@@ -44,6 +44,7 @@ for row in rows:
         subprocess.run(['tmux', 'new-session', '-d', '-s', bot_name])
 
     # Run the command in tmux
-    command = f'python {path_to_executable} {parameters} >> {path_to_logs} ENTER'
+    command = f'python {path_to_executable} {parameters} >> {path_to_logs}'
     # Launch the command in the corresponding tmux session
     subprocess.run(['tmux', 'send-keys', '-t', bot_name, command])
+    subprocess.run(["tmux", "send-keys", "-t", bot_name, "Enter"])

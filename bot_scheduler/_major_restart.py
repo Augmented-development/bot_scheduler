@@ -58,6 +58,7 @@ for row in rows:
     path_to_executable = os.path.expanduser(row['path_to_executable'])
     path_to_logs = os.path.expanduser(row['path_to_logs'])
     parameters = row['parameters']
-    command = f'python {path_to_executable} {parameters} >> {path_to_logs} ENTER'
+    command = f'python {path_to_executable} {parameters} >> {path_to_logs}'
     # Launch the command in the corresponding tmux session
     subprocess.run(['tmux', 'send-keys', '-t', bot_name, command])
+    subprocess.run(["tmux", "send-keys", "-t", bot_name, "Enter"])
