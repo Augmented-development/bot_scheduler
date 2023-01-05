@@ -53,9 +53,9 @@ for row in rows:
         else:
             logger.warning("Local changes detected, keeping branch the same")
     if not repo.index.diff(repo.head.commit):
-        logger.info("")
         # no diff staged - pull
-        remote.pull()
+        res = remote.pull()
+        logger.info(f"Pulling updates. res: {res}")
     else:
         logger.warning("Local changes detected, skipping merge to avoid conflicts.")
 
