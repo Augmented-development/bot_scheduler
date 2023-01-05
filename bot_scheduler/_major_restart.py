@@ -21,15 +21,21 @@ with open(config_path, 'r') as f:
 
 # Iterate over the rows in the list
 for row in rows:
+    bot_name = row['bot_name']
+
     is_active = row['is_active'] == "True"
     if not is_active:
+        logger.info(f"{bot_name} is disabled, skipping..")
         continue
-    # Extract the necessary information for each bot
-    path_to_folder = os.path.expanduser(row['path_to_folder'])
-    bot_name = row['bot_name']
-    branch_to_use = row['branch_to_use']
 
+    logger.info(f"Processing {bot_name}")
+
+    # Extract the necessary information for each bot
+
+    # Pull Git updates
     # Check if the branch matches config first
+    path_to_folder = os.path.expanduser(row['path_to_folder'])
+    branch_to_use = row['branch_to_use']
     # Open the repository
     repo = git.Repo(path_to_folder)
     # fetch the latest changes from the remote repository
@@ -41,18 +47,24 @@ for row in rows:
         logger.warning(f'The current branch name ({repo.active_branch.name}) '
                        f'does not match the name specified in config ({branch_to_use})')
         if not repo.index.diff(repo.head.commit):
+            logger.info(f"No staged files, switching from branch {repo.active_branch.name} to {branch_to_use}")
             # no staged files, switch branch
             repo.heads[branch_to_use].checkout()
-            logger.info(f"Switched from branch {repo.active_branch.name} to {branch_to_use}")
+        else:
+            logger.warning("Local changes detected, keeping branch the same")
     if not repo.index.diff(repo.head.commit):
+        logger.info("")
         # no diff staged - pull
         remote.pull()
+    else:
+        logger.warning("Local changes detected, skipping merge to avoid conflicts.")
 
     # Launch the tmux session first
     #   Run the tmux command to list the sessions
     output = subprocess.run(['tmux', 'list-sessions'], stdout=subprocess.PIPE).stdout.decode('utf-8')
     # Check if the desired session is in the list
     if bot_name not in output:
+        logger.info(f"Restarting tmux session for {bot_name}")
         subprocess.run(['tmux', 'new-session', '-d', '-s', bot_name])
 
     path_to_executable = os.path.expanduser(row['path_to_executable'])
@@ -60,5 +72,6 @@ for row in rows:
     parameters = row['parameters']
     command = f'python {path_to_executable} {parameters} >> {path_to_logs}'
     # Launch the command in the corresponding tmux session
+    logger.info(f"Sending tmux command to start {bot_name}. Command: {command}")
     subprocess.run(['tmux', 'send-keys', '-t', bot_name, command])
     subprocess.run(["tmux", "send-keys", "-t", bot_name, "Enter"])
